@@ -17,7 +17,6 @@
       const esearch = eutils + 'esearch.fcgi';
       const params = '?retmode=json&db=gene';
       const esearchUrl = esearch + params + '&term=' + term;
-      console.log(esearchUrl)
       let geneID;
 
       const geneLocation = $.ajax({url: esearchUrl})
@@ -27,28 +26,29 @@
           return $.ajax({ url: esummaryUrl });
         })
         .then(function(esummaryResponse) {
-          const info = esummaryResponse.result[geneID].genomicinfo[0];
-          const loc = {
-            chr: info.chrloc,
-            chrAccVer: info.chraccver,
-            start: info.chrstart,
-            stop: info.chrstop
+          const g = esummaryResponse.result[geneID].genomicinfo[0];
+          return {
+            chr: g.chrloc,
+            chrAccVer: g.chraccver,
+            start: g.chrstart,
+            stop: g.chrstop
           };
-          return loc;
         })
         .then(function(loc) {
-          return callback(geneSymbol, loc);
+          return callback(loc);
         });
 
     }
 
     $('#geneInput').on('keyup', function(event) {
       if (event.keyCode === 13 ) { // Key code 13 is "Enter"
+
         const geneSymbol = $(this).val();
-        const loc = getGeneLocation(geneSymbol, function(geneSymbol, loc) {
-          console.log('loc')
-          console.log(loc)
+
+        getGeneLocation(geneSymbol, function(loc) {
+
           $('#_ideogram').remove();
+
           const ideogram = new Ideogram({
             organism: "human",
             annotations: [{
@@ -59,7 +59,9 @@
             }],
             bandDir: 'https://unpkg.com/ideogram@0.2.2/data/bands/'
           });
+
         });
+
       }
     });
 
