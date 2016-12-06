@@ -1,7 +1,7 @@
 // Objects are useful for representing key-value pairs
 const myGene = {
   chromosome: '17',
-  start: 43125482,
+  start: 43125482,
   stop: 43044294
 };
 

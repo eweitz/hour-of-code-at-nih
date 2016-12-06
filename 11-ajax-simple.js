@@ -1,4 +1,3 @@
-// Use Ajax to get data from web services
 const term = 'BRCA1[symbol] AND human[organism]';
 const eutils = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
 const esearch = eutils + 'esearch.fcgi';
