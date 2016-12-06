@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/ideogram@0.2.2/src/css/ideogram.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.1.1/d3.min.js"></script>
+    <script src="https://unpkg.com/ideogram@0.2.2/src/js/ideogram.js"></script>
+  </head>
+  <body>
+    <h1>Genomics web app</h1>
+    <label for="geneInput">Gene: </label>
+    <input id="geneInput" name="geneInput" type="text" />
+    <script>
+
+    function getGeneLocation(geneSymbol, callback) {
+      const term = geneSymbol + '[symbol] AND human[organism]';
+      const eutils = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
+      const esearch = eutils + 'esearch.fcgi';
+      const params = '?retmode=json&db=gene';
+      const esearchUrl = esearch + params + '&term=' + term;
+      console.log(esearchUrl)
+      let geneID;
+
+      const geneLocation = $.ajax({url: esearchUrl})
+        .then(function(esearchResponse) {
+          geneID = esearchResponse.esearchresult.idlist[0];
+          const esummaryUrl = eutils + 'esummary.fcgi' + params + '&id=' + geneID;
+          return $.ajax({ url: esummaryUrl });
+        })
+        .then(function(esummaryResponse) {
+          const info = esummaryResponse.result[geneID].genomicinfo[0];
+          const loc = {
+            chr: info.chrloc,
+            chrAccVer: info.chraccver,
+            start: info.chrstart,
+            stop: info.chrstop
+          };
+          return loc;
+        })
+        .then(function(loc) {
+          return callback(geneSymbol, loc);
+        });
+
+    }
+
+    $('#geneInput').on('keyup', function(event) {
+      if (event.keyCode === 13 ) { // Key code 13 is "Enter"
+        const geneSymbol = $(this).val();
+        const loc = getGeneLocation(geneSymbol, function(geneSymbol, loc) {
+          console.log('loc')
+          console.log(loc)
+          $('#_ideogram').remove();
+          const ideogram = new Ideogram({
+            organism: "human",
+            annotations: [{
+              "name": geneSymbol,
+              "chr": loc.chr,
+              "start": loc.start,
+              "stop": loc.stop
+            }],
+            bandDir: 'https://unpkg.com/ideogram@0.2.2/data/bands/'
+          });
+        });
+      }
+    });
+
+    </script>
+  </body>
+</html>
