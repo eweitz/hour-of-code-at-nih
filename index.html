@@ -1,21 +1,17 @@
 <html>
   <head>
-    <script src="https://www.ncbi.nlm.nih.gov/projects/sviewer/js/sviewer.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/ideogram@0.2.2/src/css/ideogram.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.1.1/d3.min.js"></script>
+    <script src="https://unpkg.com/ideogram@0.2.2/src/js/ideogram.js"></script>
   </head>
   <body>
     <h1>Genomics web app</h1>
     <label for="geneInput">Gene: </label>
     <input id="geneInput" name="geneInput" type="text" />
-    <div id="sv1" class="SeqViewerApp"></div>
     <script>
 
-    SeqViewOnReady(function() {
-      // See NCBI Sequence Viewer embedding API:
-      // https://www.ncbi.nlm.nih.gov/tools/sviewer/embedding-api/
-      let app = new SeqView.App('sv1');
-
-
-    function getGeneLocation(geneSymbol) {
+    function getGeneLocation(geneSymbol, callback) {
       const term = geneSymbol + '[symbol] AND human[organism]';
       const eutils = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
       const esearch = eutils + 'esearch.fcgi';
@@ -39,24 +35,32 @@
             stop: info.chrstop
           };
           return loc;
+        })
+        .then(function(loc) {
+          return callback(geneSymbol, loc);
         });
 
-      return geneLocation;
     }
 
     $('#geneInput').on('keyup', function(event) {
       if (event.keyCode === 13 ) { // Key code 13 is "Enter"
         const geneSymbol = $(this).val();
-        const loc = getGeneLocation(geneSymbol);
-        app.load(
-          'embedded=true' +
-          '&id=' + loc.chraccver +
-          '&from=' + loc.start +
-          '&to=' + loc.stop
-        );
+        const loc = getGeneLocation(geneSymbol, function(geneSymbol, loc) {
+          console.log('loc')
+          console.log(loc)
+          $('#_ideogram').remove();
+          const ideogram = new Ideogram({
+            organism: "human",
+            annotations: [{
+              "name": geneSymbol,
+              "chr": loc.chr,
+              "start": loc.start,
+              "stop": loc.stop
+            }],
+            bandDir: 'https://unpkg.com/ideogram@0.2.2/data/bands/'
+          });
+        });
       }
-    });
-
     });
 
     </script>
