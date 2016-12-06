@@ -1,7 +1,10 @@
-function getBasicLocation(gene) {
+// This function takes a parameter "gene".
+// "gene" is an object, and we use its properties to
+// return a string representation of the gene's location
+function stringifyLocation(gene) {
   return gene.chromosome + ':' + gene.start + '-' + gene.stop;
 }
 
-const location = getBasicLocation(myGene);
+const geneLocation = stringifyLocation(myGene);
 
-console.log(location);
+console.log(geneLocation);
