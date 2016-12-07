@@ -20,5 +20,5 @@ $.ajax({url: esearchUrl})
   })
   .then(function(esummaryResponse) {
     // Here we handle the response of the request we sent in three lines above
-    console.log(esummaryResponse.result[geneID].locationhist[0])
+    console.log(esummaryResponse.result[geneID].genomicinfo[0])
   })
