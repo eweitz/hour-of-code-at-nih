@@ -17,6 +17,8 @@
     <input id="geneInput" name="geneInput" type="text" />
     <script>
 
+    let ideogram;
+
     function getGeneLocation(geneSymbol, callback) {
       const term = geneSymbol + '[symbol] AND human[organism]';
       const eutils = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
@@ -32,12 +34,12 @@
           return $.ajax({ url: esummaryUrl });
         })
         .then(function(esummaryResponse) {
-          const g = esummaryResponse.result[geneID].genomicinfo[0];
+          const info = esummaryResponse.result[geneID].genomicinfo[0];
           return {
-            chr: g.chrloc,
-            chrAccVer: g.chraccver,
-            start: g.chrstart,
-            stop: g.chrstop
+            chr: info.chrloc,
+            chrAccVer: info.chraccver,
+            start: info.chrstart,
+            stop: info.chrstop
           };
         })
         .then(function(loc) {
@@ -53,9 +55,9 @@
 
         getGeneLocation(geneSymbol, function(loc) {
 
-          $('#_ideogram').remove();
+          $('#_ideogram, #gdvNote').remove();
 
-          const ideogram = new Ideogram({
+          ideogram = new Ideogram({
             organism: "human",
             annotations: [{
               "name": geneSymbol,
@@ -66,6 +68,17 @@
             bandDir: 'https://unpkg.com/ideogram@0.2.2/data/bands/'
           });
 
+
+          const urlParams = '?acc=GCF_000001405.35&context=gene&q=' + geneSymbol;
+          const gdvUrl = 'https://www.ncbi.nlm.nih.gov/genome/gdv/' + urlParams;
+
+          $('body').append(
+              '<p id="gdvNote">' +
+                '<a href="' + gdvUrl + '" target="_blank">' +
+                  'View ' + geneSymbol + ' in NCBI Genome Data Viewer' +
+                '</a>' +
+              '</p>'
+          );
         });
 
       }
