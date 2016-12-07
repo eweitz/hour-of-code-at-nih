@@ -4,7 +4,7 @@
 const term = 'BRCA1[symbol] AND human[organism]';
 const eutils = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
 const esearch = eutils + 'esearch.fcgi';
-const params = '?retmode=json&db=gene';
+const params = '?retmode=json&db=gene&email=eric.weitz@nih.gov';
 const esearchUrl = esearch + params + '&term=' + term;
 let geneID;
 
