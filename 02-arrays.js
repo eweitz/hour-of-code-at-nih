@@ -2,7 +2,7 @@
 let genes = ['BRCA1', 'TP53', 'PCSK9'];
 
 // Look at the array
-console.log(genes)
+console.log(genes);
 
 // Get the first element
 console.log(genes[0]);

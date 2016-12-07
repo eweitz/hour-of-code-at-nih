@@ -1,8 +1,10 @@
 // AND: &&
 // OR: ||
-// NOT: !		
+// NOT: !
 
-if (organism === 'Homo sapiens' && chromosome === '17') {
+const chromosome = myGene.chromosome;
+
+if (organism === 'human' && chromosome === '17') {
   console.log('Possibly BRCA1');
 }
 

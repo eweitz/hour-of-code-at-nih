@@ -1,5 +1,5 @@
-if (organism === 'human') {
-  console.log('human');
+if (myGene.organism === 'human') {
+  console.log('This is a human gene');
 } else {
-  console.log('not human');
+  console.log('This is not a human gene');
 }

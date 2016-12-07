@@ -18,6 +18,8 @@
     <script>
 
     function getGeneLocation(geneSymbol, callback) {
+
+      // More on EUtils: https://www.ncbi.nlm.nih.gov/books/NBK25500/
       const term = geneSymbol + '[symbol] AND human[organism]';
       const eutils = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
       const esearch = eutils + 'esearch.fcgi';
@@ -25,19 +27,19 @@
       const esearchUrl = esearch + params + '&term=' + term;
       let geneID;
 
-      const geneLocation = $.ajax({url: esearchUrl})
+      $.ajax({url: esearchUrl})
         .then(function(esearchResponse) {
           geneID = esearchResponse.esearchresult.idlist[0];
           const esummaryUrl = eutils + 'esummary.fcgi' + params + '&id=' + geneID;
           return $.ajax({ url: esummaryUrl });
         })
         .then(function(esummaryResponse) {
-          const g = esummaryResponse.result[geneID].genomicinfo[0];
+          const info = esummaryResponse.result[geneID].genomicinfo[0];
           return {
-            chr: g.chrloc,
-            chrAccVer: g.chraccver,
-            start: g.chrstart,
-            stop: g.chrstop
+            chr: info.chrloc,
+            chrAccVer: info.chraccver,
+            start: info.chrstart,
+            stop: info.chrstop
           };
         })
         .then(function(loc) {
@@ -55,6 +57,7 @@
 
           $('#_ideogram').remove();
 
+          // More on Ideogram.js: https://github.com/eweitz/ideogram
           const ideogram = new Ideogram({
             organism: "human",
             annotations: [{

@@ -1,3 +1,6 @@
+// Let's wrap those statements into a function!
+// We'll also generalize it to handle any human gene symbol.
+
 function getGeneLocation(geneSymbol) {
   const term = geneSymbol + '[symbol] AND human[organism]';
   const eutils = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
@@ -6,7 +9,7 @@ function getGeneLocation(geneSymbol) {
   const esearchUrl = esearch + params + '&term=' + term;
   let geneID;
 
-  const geneLocation = $.ajax({url: esearchUrl})
+  $.ajax({url: esearchUrl})
     .then(function(esearchResponse) {
       geneID = esearchResponse.esearchresult.idlist[0];
       const esummaryUrl = eutils + 'esummary.fcgi' + params + '&id=' + geneID;
@@ -20,8 +23,8 @@ function getGeneLocation(geneSymbol) {
         start: info.chrstart,
         stop: info.chrstop
       };
-      return loc;
+      console.log('Location of gene ' + geneSymbol + ':');
+      console.log(loc);
     });
 
-  return geneLocation;
 }

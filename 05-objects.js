@@ -9,4 +9,4 @@ const myGene = {
 console.log(myGene.chromosome);
 
 // Add a property
-myGene.organism = 'Homo sapiens';
+myGene.organism = organism;
