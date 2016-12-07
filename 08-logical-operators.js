@@ -1,6 +1,4 @@
-// AND: &&
-// OR: ||
-// NOT: !
+// AND: &&    OR: ||    NOT: !
 
 const chromosome = myGene.chromosome;
 
