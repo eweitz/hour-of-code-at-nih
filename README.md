@@ -9,6 +9,7 @@ The cumulative series of JavaScript examples -- run in Chrome DevTools in a blan
 By progressively building up these examples, we were able to encapsulate our processing of JSON data from the [NCBI EUtils](https://www.ncbi.nlm.nih.gov/books/NBK25500/) web service.  The transformed data drove interactive genome visualization with [Ideogram.js](https://github.com/eweitz/ideogram), and was used to link to [Genome Data Viewer](https://www.ncbi.nlm.nih.gov/genome/gdv/?acc=GCF_000001405.35&context=genome).
 
 The genomics web app we developed can be used by going to https://eweitz.github.io/hour-of-code-at-nih/, or clicking the image below.
+
 [![Click here to try our genomics web app](https://raw.githubusercontent.com/eweitz/hour-of-code-at-nih/master/genomics-web-app-screenshot.png)](https://eweitz.github.io/hour-of-code-at-nih/)
 
 Questions?  Comments?  Please contact eric.weitz@nih.gov, or [open an issue](https://github.com/eweitz/hour-of-code-at-nih/issues)!
