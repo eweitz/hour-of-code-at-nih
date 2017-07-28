@@ -1,6 +1,6 @@
 # hour-of-code-at-nih
 
-_JavaScript course for [Hour of Code at the NIH Library](https://nihlibrary.nih.gov/AboutUs/Announcements/Pages/Hour-of-Code.aspx)_
+_JavaScript course for [Hour of Code at the NIH Library](https://nihlibrary.nih.gov/about-us/news/hour-code-nih-library-learn-programming-one-hour)_
 
 This brief course evaluated genomics-oriented JavaScript code examples in [Chrome Developer Tools](https://developer.chrome.com/devtools), in tandem with [presentation slides](https://github.com/eweitz/hour-of-code-at-nih/raw/master/learn-javascript-in-an-hour.pptx). 
 
